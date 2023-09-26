@@ -1,31 +1,28 @@
+@import 'variables';
 
-
-$primary: #df2c7d;
-$secundary : #a51153;
-
-.ant-btn-primary {
-    border: 30px;
-    background-color: $primary;
-    border-color: $secundary;
-    &:hover{
-        background-color: $primary;
-        border-color: $secundary;
-    }
-    &:focus {
-      background-color: $primary;
-      border-color: $primary;
-    }
-  }
-
-
-.ant-input:hover {
-    border-color: $primary;
-    outline: 0;
-}
-
-.ant-list {
-    width: 80%;
+#divList {
+    display: 'flex'; 
+    flex-direction: column;
+    gap: 10px;
+    justify-content: 'center'; 
+    align-items: center;
     
 }
 
+.ant-list {
+    width: 90%;
+    display: 'flex';
+    align-items: 'center';
+    justify-content: 'center';   
 
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+    background-color: $primary;
+    border-color: $secundary;
+}
+
+#deleteButton {
+    width: 30%;
+    border-radius: 10px;
+}

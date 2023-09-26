@@ -1,22 +1,21 @@
 import "./List.scss";
-
 import React, { useState } from "react";
-import { Divider, List, Button } from 'antd';
+
 import { useTaskStore } from "../stores/taskStore";
+import AddTaskComponent from "./AddTask";
+
+import { Divider, List, Button } from 'antd';
 import { Checkbox } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
-import { Input, Space } from 'antd';
-
-
+import { Space } from 'antd';
 
 
 const ListComponent: React.FC = () => {
-  const [inputValue, setInputValue] = useState('');
   const [completedTasks, setCompletedTasks] = useState<string[]>([]);
 
   const tasks = useTaskStore().tasks;
   const markTask = useTaskStore().setTaskCompleted;
-  const addTask = useTaskStore().addTask;
+  const deleteTasks = useTaskStore().deleteAll;
 
   const onChange = (e: CheckboxChangeEvent, task: string) => {
     const { checked } = e.target;
@@ -32,29 +31,26 @@ const ListComponent: React.FC = () => {
     }
   };
 
-  const handleClick = () => {
-    addTask(inputValue);
-    console.log(inputValue);
+  const deleteAll = () => {
+    deleteTasks();
   };
 
   return (<>
-    <Space.Compact style={{ width: '50%' , padding: '30px'}} id="inputBar">
-      <Input placeholder="Description of the task" value={inputValue} onChange={(e) => setInputValue(e.target.value)}/>
-      <Button type="primary" onClick={handleClick}>Add task</Button>
-    </Space.Compact>
-
+    <AddTaskComponent />
     <Divider orientation="left">TODO list</Divider>
-    <List
-      size="small"      
-      bordered
-      dataSource={tasks}
-      renderItem={(task) => (
-        <List.Item>
-          <Checkbox checked={completedTasks.includes(task.uuid)} onChange={(e) => onChange(e, task.uuid)}>{task.description}</Checkbox>
-          {/* <Button>Delete</Button> */}
-        </List.Item>
-      )}
-    />
+    <Space.Compact style={{ width: '100%'}} id="divList">
+      <List
+        size="small"      
+        bordered
+        dataSource={tasks}
+        renderItem={(task) => (
+          <List.Item>
+            <Checkbox checked={completedTasks.includes(task.uuid)} onChange={(e) => onChange(e, task.uuid)}>{task.description}</Checkbox>
+          </List.Item>
+        )}
+      />
+      <Button type="primary" onClick={deleteAll} id="deleteButton">Delete all tasks</Button>
+    </Space.Compact>    
   </>);
 };
 

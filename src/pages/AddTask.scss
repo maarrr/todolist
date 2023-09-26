@@ -1,0 +1,21 @@
+@import 'variables';
+
+#inputBar {
+    margin-top: 20px;
+}
+
+.ant-btn-primary {
+    border: 30px;
+    background-color: $primary;
+    border-color: $secundary;
+}
+
+.ant-btn-primary:hover {
+    background-color: $primary;
+
+}
+
+.ant-input:hover {
+    border-color: $primary;
+    outline: 0;
+}

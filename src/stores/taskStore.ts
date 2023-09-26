@@ -7,6 +7,7 @@ interface TaskState {
   tasks: Task[];
   addTask: (description: string) => void;
   setTaskCompleted: (uuid: string, completed: boolean) => void;
+  deleteAll: () => void;
 }
 
 export const useTaskStore = create<TaskState>((set) => ({
@@ -25,6 +26,11 @@ export const useTaskStore = create<TaskState>((set) => ({
             tasks: state.tasks.map(x => (x.uuid === uuid ? { ...x, isDone: completed } : x))
         }))
     },
+    deleteAll: () => {
+        set((state) => ({
+            tasks: [],
+        }))
+    }
     
 }));
 
