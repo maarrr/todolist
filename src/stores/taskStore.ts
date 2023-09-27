@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { Task } from "../model/task";
 
 import {v4 as uuidv4} from 'uuid';
+import { persist, createJSONStorage } from 'zustand/middleware'
 
 interface TaskState {
   tasks: Task[];
@@ -10,27 +11,32 @@ interface TaskState {
   deleteAll: () => void;
 }
 
-export const useTaskStore = create<TaskState>((set) => ({
-    tasks: [],
-    addTask: (description: string) => set((state) => ({
-        tasks: [ ...state.tasks, 
-            {
-                uuid: uuidv4(),
-                description,
-                isDone: false 
-            }    as Task,
-        ],
-       })),
-    setTaskCompleted: (uuid: string, completed: boolean) => {
-        set((state) => ({
-            tasks: state.tasks.map(x => (x.uuid === uuid ? { ...x, isDone: completed } : x))
-        }))
-    },
-    deleteAll: () => {
-        set((state) => ({
+export const useTaskStore = create<TaskState>()(
+    persist(
+        (set, get) => ({
             tasks: [],
-        }))
-    }
-    
-}));
+            addTask: (description: string) => set({
+                tasks: [...get().tasks,
+                    {
+                        uuid: uuidv4(),
+                        description,
+                        isDone: false
+                    } as Task,
+                ],
+            }),
+            setTaskCompleted: (uuid: string, completed: boolean) => {
+                set({
+                    tasks: get().tasks.map(x => (x.uuid === uuid ? { ...x, isDone: completed } : x))
+                })
+            },
+            deleteAll: () => {
+                set({tasks: []})
+            }
+        }),
+        {
+            name: 'task-storage', // name of the item in the storage (must be unique)
+            storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
+        }
+    )
+)
 

@@ -9,7 +9,7 @@ import ListComponent from './pages/ListComponent';
 function App() {
   return (
     <div className="App">
-      <ListComponent/>
+        <ListComponent/>
     </div>
   );
 }

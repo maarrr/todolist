@@ -10,8 +10,8 @@ import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { Space } from 'antd';
 
 
+
 const ListComponent: React.FC = () => {
-  const [completedTasks, setCompletedTasks] = useState<string[]>([]);
 
   const tasks = useTaskStore().tasks;
   const markTask = useTaskStore().setTaskCompleted;
@@ -19,16 +19,7 @@ const ListComponent: React.FC = () => {
 
   const onChange = (e: CheckboxChangeEvent, task: string) => {
     const { checked } = e.target;
-
     markTask(task,checked);
-
-    if (checked) {
-      setCompletedTasks((prevCompletedTasks) => [...prevCompletedTasks, task]);
-    } else {
-      setCompletedTasks((prevCompletedTasks) =>
-        prevCompletedTasks.filter((completedTask) => completedTask !== task)
-      );
-    }
   };
 
   const deleteAll = () => {
@@ -45,7 +36,7 @@ const ListComponent: React.FC = () => {
         dataSource={tasks}
         renderItem={(task) => (
           <List.Item>
-            <Checkbox checked={completedTasks.includes(task.uuid)} onChange={(e) => onChange(e, task.uuid)}>{task.description}</Checkbox>
+            <Checkbox checked={task.isDone} onChange={(e) => onChange(e, task.uuid)}>{task.description}</Checkbox>
           </List.Item>
         )}
       />
