@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Counter from './pages/Counter'
 import ListComponent from './pages/ListComponent';
+import AddTaskComponent from './pages/AddTask';
 
 
 
@@ -9,6 +10,7 @@ import ListComponent from './pages/ListComponent';
 function App() {
   return (
     <div className="App">
+        <AddTaskComponent />
         <ListComponent/>
     </div>
   );

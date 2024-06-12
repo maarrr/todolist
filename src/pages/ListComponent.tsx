@@ -4,10 +4,9 @@ import React, { useState } from "react";
 import { useTaskStore } from "../stores/taskStore";
 import AddTaskComponent from "./AddTask";
 
-import { Divider, List, Button } from 'antd';
-import { Checkbox } from 'antd';
+import { Divider, List, Button, Checkbox, Space } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
-import { Space } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 
 
 
@@ -16,6 +15,7 @@ const ListComponent: React.FC = () => {
   const tasks = useTaskStore().tasks;
   const markTask = useTaskStore().setTaskCompleted;
   const deleteTasks = useTaskStore().deleteAll;
+  const deleteTask = useTaskStore().deleteTask;
 
   const onChange = (e: CheckboxChangeEvent, task: string) => {
     const { checked } = e.target;
@@ -27,7 +27,6 @@ const ListComponent: React.FC = () => {
   };
 
   return (<>
-    <AddTaskComponent />
     <Divider orientation="left">TODO list</Divider>
     <Space.Compact style={{ width: '100%'}} id="divList">
       <List
@@ -37,7 +36,8 @@ const ListComponent: React.FC = () => {
         renderItem={(task) => (
           <List.Item>
             <Checkbox checked={task.isDone} onChange={(e) => onChange(e, task.uuid)}>{task.description}</Checkbox>
-          </List.Item>
+            <DeleteOutlined onClick={() => deleteTask(task.uuid)}/>
+            </List.Item>
         )}
       />
       <Button type="primary" onClick={deleteAll} id="deleteButton">Delete all tasks</Button>

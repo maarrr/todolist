@@ -9,6 +9,7 @@ interface TaskState {
   addTask: (description: string) => void;
   setTaskCompleted: (uuid: string, completed: boolean) => void;
   deleteAll: () => void;
+  deleteTask: (uuid: string) => void;
 }
 
 export const useTaskStore = create<TaskState>()(
@@ -31,6 +32,9 @@ export const useTaskStore = create<TaskState>()(
             },
             deleteAll: () => {
                 set({tasks: []})
+            },
+            deleteTask: (uuid: string) => {
+                set({tasks: get().tasks.filter(x => x.uuid !== uuid)})
             }
         }),
         {

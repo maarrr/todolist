@@ -19,3 +19,9 @@
     border-color: $primary;
     outline: 0;
 }
+
+@media (min-width: 600px) {
+    #inputBar {
+        width: 80%;
+    }
+}
